@@ -1,26 +1,25 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
--- http://www.phpmyadmin.net
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 08, 2014 at 03:08 AM
--- Server version: 5.6.12
--- PHP Version: 5.5.3
+-- Host: database
+-- Generation Time: Oct 16, 2020 at 02:10 AM
+-- Server version: 8.0.21
+-- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `bookstore`
 --
-CREATE DATABASE IF NOT EXISTS `bookstore` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `bookstore`;
 
 -- --------------------------------------------------------
 
@@ -28,17 +27,22 @@ USE `bookstore`;
 -- Table structure for table `books`
 --
 
-DROP TABLE IF EXISTS `books`;
-CREATE TABLE IF NOT EXISTS `books` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `books` (
+  `id` int UNSIGNED NOT NULL,
   `title` varchar(200) NOT NULL DEFAULT '',
   `description` text,
-  `price` decimal(11,2) unsigned NOT NULL,
+  `price` decimal(11,2) UNSIGNED NOT NULL,
   `image` varchar(200) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`id`, `title`, `description`, `price`, `image`, `created_at`, `updated_at`) VALUES
+(9, 'Python Crash Course', 'Python Crash Course is a fast-paced, thorough introduction to programming with Python that will have you writing programs, solving problems, and making things that work in no time.', '100.00', 'uploads/python.jpg', '2020-10-16 01:40:56', '2020-10-16 01:47:57');
 
 -- --------------------------------------------------------
 
@@ -46,10 +50,9 @@ CREATE TABLE IF NOT EXISTS `books` (
 -- Table structure for table `books_categories`
 --
 
-DROP TABLE IF EXISTS `books_categories`;
-CREATE TABLE IF NOT EXISTS `books_categories` (
-  `book_id` int(11) unsigned NOT NULL,
-  `category_id` int(11) unsigned NOT NULL
+CREATE TABLE `books_categories` (
+  `book_id` int UNSIGNED NOT NULL,
+  `category_id` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -58,12 +61,17 @@ CREATE TABLE IF NOT EXISTS `books_categories` (
 -- Table structure for table `categories`
 --
 
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE IF NOT EXISTS `categories` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+CREATE TABLE `categories` (
+  `id` int UNSIGNED NOT NULL,
+  `name` varchar(200) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(5, 'Cybersecurity');
 
 -- --------------------------------------------------------
 
@@ -71,15 +79,20 @@ CREATE TABLE IF NOT EXISTS `categories` (
 -- Table structure for table `profiles`
 --
 
-DROP TABLE IF EXISTS `profiles`;
-CREATE TABLE IF NOT EXISTS `profiles` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned DEFAULT NULL,
+CREATE TABLE `profiles` (
+  `id` int UNSIGNED NOT NULL,
+  `user_id` int UNSIGNED DEFAULT NULL,
   `full_name` varchar(100) DEFAULT NULL,
   `shipping_address` varchar(100) DEFAULT NULL,
-  `phone_no` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `phone_no` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `profiles`
+--
+
+INSERT INTO `profiles` (`id`, `user_id`, `full_name`, `shipping_address`, `phone_no`) VALUES
+(5, 5, 'Admin', NULL, '09133731337');
 
 -- --------------------------------------------------------
 
@@ -87,16 +100,21 @@ CREATE TABLE IF NOT EXISTS `profiles` (
 -- Table structure for table `reviews`
 --
 
-DROP TABLE IF EXISTS `reviews`;
-CREATE TABLE IF NOT EXISTS `reviews` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `reviews` (
+  `id` int UNSIGNED NOT NULL,
   `comment` text NOT NULL,
   `rating` tinyint(1) NOT NULL DEFAULT '0',
-  `book_id` int(11) unsigned DEFAULT NULL,
+  `book_id` int UNSIGNED DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `comment`, `rating`, `book_id`, `created_at`, `updated_at`) VALUES
+(6, 'Cool book!', 5, 9, '2020-10-16 01:55:09', '2020-10-16 01:55:09');
 
 -- --------------------------------------------------------
 
@@ -104,16 +122,90 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `id` int UNSIGNED NOT NULL,
   `uname` varchar(100) NOT NULL DEFAULT '',
   `pass` varchar(60) NOT NULL DEFAULT '',
-  `is_admin` tinyint(1) unsigned DEFAULT '0',
+  `is_admin` tinyint UNSIGNED DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `uname`, `pass`, `is_admin`, `created_at`, `updated_at`) VALUES
+(5, 'admin@bookstore.com', 'c378985d629e99a4e86213db0cd5e70d', 1, '2020-10-16 01:36:36', '2020-10-16 01:36:36');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `profiles`
+--
+ALTER TABLE `profiles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `books`
+--
+ALTER TABLE `books`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `profiles`
+--
+ALTER TABLE `profiles`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
